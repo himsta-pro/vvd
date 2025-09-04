@@ -1,0 +1,67 @@
+body, html {
+  overflow-x: hidden;
+}
+
+.sidebar-container {
+  position: fixed;
+  top: 53px;
+  left: 0;
+  height: 100%;
+  background-color: #fff;
+  width: 250px;
+  transition: width 0.3s ease;
+  z-index: 999;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+@media (max-width: 576px) {
+  .sidebar-container.collapsed {
+    width: 0px !important;
+  }
+}
+
+@media (min-width: 577px) {
+  .sidebar-container.collapsed {
+    width: 80px !important;
+  }
+}
+
+.right-side-content {
+  margin-left: 250px;
+  padding: 30px;
+  margin-top: 50px;
+  top: 50px;
+  transition: margin-left 0.3s ease;
+}
+
+.right-side-content.collapsed {
+  margin-left: 80px;
+}
+
+@media (max-width: 768px) {
+  .right-side-content,
+  .right-side-content.collapsed {
+    margin-left: 0px;
+    margin-top: 25px;
+  }
+}
+
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.hover-card {
+  transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}

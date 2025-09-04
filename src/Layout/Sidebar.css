@@ -1,0 +1,150 @@
+/* Sidebar.css */
+
+/* Sidebar.css */
+
+.sidebar-container {
+  width: 260px;
+  background: #3c3c87; /* Dark Purple Background */
+  margin-top: 8px;
+  /* height: calc(100vh - 8px);  */
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;          /* 👈 scroll enable */
+  scrollbar-width: none;     /* Firefox ke liye slim scrollbar */
+  /* scrollbar-color: #888 #3c3c87; */
+}
+
+/* Chrome, Edge, Safari scrollbar styling */
+.sidebar-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-container::-webkit-scrollbar-track {
+  background: #3c3c87;
+}
+
+.sidebar-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+.sidebar-container.collapsed {
+  width: 70px;
+  overflow-y: auto; /* collapsed me bhi scroll chahiye */
+}
+
+.sidebar-container.collapsed {
+  width: 70px;
+}
+
+.sidebar {
+  padding: 0;
+}
+
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 5px 0;
+  margin-bottom: 60px;
+}
+
+.menu-item {
+  cursor: pointer;
+  position: relative;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: #dcd2d2; /* Muted light text */
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 4px 10px;
+  
+}
+
+.menu-link:hover {
+  background: rgba(243, 233, 233, 0.15); /* Light hover */
+  color: #fff;
+  transform: translateX(5px);
+}
+
+.menu-item.active > .menu-link {
+  background: #f3e9e9; /* Light cream for active */
+  color: #3c3c87; /* Dark text on light bg */
+  font-weight: 600;
+ 
+  transform: scale(1.05);
+}
+
+.menu-icon {
+  font-size: 18px;
+  margin-right: 15px;
+  min-width: 22px;
+  color: #c7c7db; /* Light grayish purple */
+  transition: color 0.3s ease;
+}
+
+.menu-item.active .menu-icon {
+  color: #3c3c87; /* Dark purple on active */
+}
+
+.menu-link:hover {
+  color: #fff;
+}
+
+.menu-text {
+  flex-grow: 1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.arrow-icon {
+  transition: transform 0.3s ease;
+  color: #c7c7db;
+}
+
+.arrow-icon.rotate {
+  transform: rotate(180deg);
+  color: #fff;
+}
+
+.submenu {
+  background: #2e2e6a; /* Slightly darker purple for submenu */
+  padding-left: 45px;
+  margin: 5px 0;
+  border-left: 2px solid #f3e9e9; /* Light accent */
+  animation: fadeIn 0.3s ease;
+}
+
+.submenu-item {
+  padding: 10px 0;
+  font-size: 13px;
+  color: #d1cfd9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submenu-item:hover {
+  color: #f3e9e9;
+  transform: translateX(4px);
+}
+
+.submenu-item.active-sub {
+  color: #f3e9e9; /* Light highlight */
+  font-weight: 600;
+}
+
+/* ✨ Animation for submenu */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
