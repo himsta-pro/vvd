@@ -1,0 +1,1134 @@
+{
+  "info": {
+    "name": "VVD Project Management API",
+    "description": "Complete API collection for VVD Project Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"Client\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('token', response.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@vvd.com\",\n  \"password\": \"password123\",\n  \"role\": \"Admin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@vvd.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/forgot-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "forgot-password"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Project\",\n  \"client\": \"Test Client\",\n  \"description\": \"Project description\",\n  \"start_date\": \"2024-01-01\",\n  \"end_date\": \"2024-06-30\",\n  \"budget\": 100000,\n  \"status\": \"Not Started\",\n  \"priority\": \"Medium\",\n  \"manager_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Project\",\n  \"client\": \"Updated Client\",\n  \"description\": \"Updated description\",\n  \"start_date\": \"2024-01-01\",\n  \"end_date\": \"2024-06-30\",\n  \"budget\": 120000,\n  \"status\": \"In Progress\",\n  \"priority\": \"High\",\n  \"manager_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "RFQs",
+      "item": [
+        {
+          "name": "Get All RFQs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/rfqs?page=1&limit=10&status=Submitted",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rfqs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "Submitted"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create RFQ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client\": \"Test Client\",\n  \"project\": \"Test Project\",\n  \"date\": \"2024-01-15\",\n  \"location\": \"Dubai\",\n  \"value\": \"$50,000\",\n  \"scope_summary\": \"Test project scope\",\n  \"contact_person\": \"John Doe\",\n  \"contact_email\": \"john@example.com\",\n  \"contact_phone\": \"+971 50 123 4567\",\n  \"deadline\": \"2024-02-15\",\n  \"notes\": \"Test notes\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/rfqs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rfqs"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Tasks by Project",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/project/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "project", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"New Task\",\n  \"description\": \"Task description\",\n  \"project_id\": 1,\n  \"assignee_id\": 2,\n  \"start_date\": \"2024-01-01\",\n  \"due_date\": \"2024-01-15\",\n  \"priority\": \"High\",\n  \"status\": \"Not Started\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Financials",
+      "item": [
+        {
+          "name": "Get All Invoices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/financials/invoices?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "financials", "invoices"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": 1,\n  \"client\": \"Test Client\",\n  \"date\": \"2024-01-15\",\n  \"due_date\": \"2024-02-15\",\n  \"grn_ref\": \"GRN-2024-001\",\n  \"items\": [\n    {\n      \"description\": \"Construction Materials\",\n      \"quantity\": 1,\n      \"rate\": 50000\n    },\n    {\n      \"description\": \"Labor Charges\",\n      \"quantity\": 1,\n      \"rate\": 30000\n    }\n  ],\n  \"notes\": \"Invoice for project milestone 1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/financials/invoices",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "financials", "invoices"]
+            }
+          }
+        },
+        {
+          "name": "Record Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice_id\": 1,\n  \"amount\": 80000,\n  \"date\": \"2024-01-20\",\n  \"method\": \"Bank Transfer\",\n  \"reference\": \"TRX-123456789\",\n  \"notes\": \"Payment received via bank transfer\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/financials/payments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "financials", "payments"]
+            }
+          }
+        },
+        {
+          "name": "Get Financial Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/financials/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "financials", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Procurement",
+      "item": [
+        {
+          "name": "Get All Materials",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/procurement/materials?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "procurement", "materials"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Material",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Concrete Blocks\",\n  \"project_id\": 1,\n  \"supplier\": \"ABC Suppliers\",\n  \"qty\": 100,\n  \"unit_cost\": 25.50,\n  \"po_no\": \"PO-006\",\n  \"planned_date\": \"2024-04-15\",\n  \"status\": \"Processing\",\n  \"notes\": \"High-quality concrete blocks for foundation\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/procurement/materials",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "procurement", "materials"]
+            }
+          }
+        },
+        {
+          "name": "Generate Purchase Order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/procurement/materials/1/po",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "procurement", "materials", "1", "po"]
+            }
+          }
+        },
+        {
+          "name": "Generate GRN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"material_id\": 1,\n  \"grn_number\": \"GRN-2024-005\",\n  \"receipt_date\": \"2024-01-20\",\n  \"received_qty\": 10,\n  \"received_condition\": \"Good\",\n  \"inspected_by\": \"Ahmed Al-Rashid\",\n  \"storage_location\": \"Warehouse A\",\n  \"notes\": \"All materials received in good condition\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/procurement/grn",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "procurement", "grn"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quality & HSE",
+      "item": [
+        {
+          "name": "Get All Inspections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/quality/inspections?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "quality", "inspections"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Inspection",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"task_id\": 1,\n  \"date\": \"2024-01-20\",\n  \"inspector\": \"Quality Inspector\",\n  \"snags\": \"Minor safety issues found\",\n  \"status\": \"Open\",\n  \"hse_issues\": \"Medium\",\n  \"project\": \"Swimming Pool Construction\",\n  \"description\": \"Routine quality inspection\",\n  \"severity\": \"Medium\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/quality/inspections",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "quality", "inspections"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Design Management",
+      "item": [
+        {
+          "name": "Get All Drawings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/designs/drawings?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "designs", "drawings"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload Drawing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "drawing",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "project_id",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "contract_id",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "stage",
+                  "value": "Concept",
+                  "type": "text"
+                },
+                {
+                  "key": "submission_date",
+                  "value": "2024-01-20",
+                  "type": "text"
+                },
+                {
+                  "key": "status",
+                  "value": "Draft",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/designs/drawings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "designs", "drawings"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Job Costs",
+      "item": [
+        {
+          "name": "Get All Job Costs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/job-costs?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "job-costs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Price Database",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/job-costs/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "job-costs", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Create Job Cost",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": 1,\n  \"project\": \"Swimming Pool Construction\",\n  \"task\": \"Foundation Work\",\n  \"resource\": \"Construction Team\",\n  \"estimated_labor\": 10000,\n  \"estimated_material\": 8000,\n  \"overhead\": 2000,\n  \"status\": \"Estimated\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/job-costs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "job-costs"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/dashboard-stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "dashboard-stats"]
+            }
+          }
+        },
+        {
+          "name": "Generate Project Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/generate?projectId=1&reportType=project-summary&startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "generate"],
+              "query": [
+                {
+                  "key": "projectId",
+                  "value": "1"
+                },
+                {
+                  "key": "reportType",
+                  "value": "project-summary"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Milestones",
+      "item": [
+        {
+          "name": "Get All Milestones",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/milestones?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "milestones"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Milestone",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": 1,\n  \"name\": \"Project Kickoff\",\n  \"planned_date\": \"2024-01-01\",\n  \"actual_date\": \"2024-01-01\",\n  \"status\": \"Completed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/milestones",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "milestones"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Risk Management",
+      "item": [
+        {
+          "name": "Get All Risks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/risks?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "risks"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Risk",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": 1,\n  \"description\": \"Weather delays during construction\",\n  \"level\": \"Medium\",\n  \"impact\": \"High\",\n  \"probability\": \"Medium\",\n  \"mitigation_plan\": \"Monitor weather forecasts and plan indoor work during bad weather\",\n  \"owner\": \"Ahmed Al-Rashid\",\n  \"status\": \"Open\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/risks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "risks"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Resources",
+      "item": [
+        {
+          "name": "Get All Resources",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Resource",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alex Johnson\",\n  \"role\": \"Engineer\",\n  \"subcontractor\": \"Engineering Solutions\",\n  \"rate\": \"$80/hr\",\n  \"availability\": \"Full-time\",\n  \"assigned_tasks\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/resources",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "resources"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contracts",
+      "item": [
+        {
+          "name": "Get All Contracts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contracts"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Contract",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": 1,\n  \"client\": \"Test Client\",\n  \"project_name\": \"Test Project\",\n  \"value\": \"$100,000\",\n  \"signed_date\": \"2024-01-15\",\n  \"start_date\": \"2024-02-01\",\n  \"end_date\": \"2024-06-30\",\n  \"manager\": \"Ahmed Al-Rashid\",\n  \"client_rep\": \"John Doe - john@example.com - +971 50 123 4567\",\n  \"payment_terms\": \"30% advance, 40% on milestone 1, 30% on completion\",\n  \"status\": \"Active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contracts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contracts"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "stats"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
